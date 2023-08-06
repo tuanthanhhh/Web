@@ -1,0 +1,21 @@
+
+.title{
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+}
+.poster{
+    display: flex;
+    justify-content: center;
+    gap: 175px;
+    margin-top: 60px;
+    padding: 40px;
+    background-color: #D9D9D9;
+    border-radius: 10px;
+
+}
+.poster img{
+    height: 355px;
+    width: 247px;
+    border-radius: 10px;
+}

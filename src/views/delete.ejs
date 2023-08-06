@@ -1,0 +1,34 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/index.css">
+    <title>Update User</title>
+</head>
+<body>
+    <div class="topnav">
+        <a href="/User/:Id">Home</a>
+        <a href="/Create" >Create Film</a>
+        <a href="/List" class="active">List Film</a>
+        <a href="/Sign-out">Sign-out</a>
+    </div>
+    <div class="form-add-new">
+        <form action="/delete-film" method="POST">
+            <fieldset>
+                <legend>Delete user</legend>
+                <div class="input-group d-none">
+                    <label>Id:</label>
+                    <input type="text" name="Id" value="<%= filmEdit.Id %>">
+                </div>
+                <div class="input-group">
+                    <label>Do you want delete film ?</label>
+                    <input type="text" name="Name" value="<%= filmEdit.Name %>">
+                </div>
+                <div>
+                    <button>Confirm</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>
