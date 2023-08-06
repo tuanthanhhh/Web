@@ -1,0 +1,54 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/index.css">
+    <title>Update User</title>
+</head>
+<body>
+    <div class="topnav">
+        <a href="/User/:Id">Home</a>
+        <a href="/Create" >Create Film</a>
+        <a href="/List" class="active">List Film</a>
+        <a href="/Sign-out">Sign-out</a>
+    </div>
+    <div class="form-add-new">
+        <form action="/update-film" method="POST">
+            <fieldset>
+                <legend>Update a user</legend>
+                <div class="input-group d-none">
+                    <label>Id:</label>
+                    <input type="text" name="Id" value="<%= filmEdit.Id %>">
+                </div>
+                <div class="input-group">
+                    <label>Name:</label>
+                    <input type="text" name="Name" value="<%= filmEdit.Name %>">
+                </div>
+                <div class="input-group">
+                    <label>Director</label>
+                    <input type="text" name="Director" value="<%= filmEdit.Director %>">
+                </div>
+                <div class="input-group">
+                    <label>Duration:</label>
+                    <input  type="text" name="Duration" value="<%= filmEdit.Duration %>" >
+                </div>
+                <div class="input-group">
+                    <label>Genre:</label>
+                    <input type="text" name="Genre" value="<%= filmEdit.Genre %>" >
+                </div>
+                <div class="input-group">
+                    <label>Release_date:</label>
+                    <input type="text" name="Release_date" value="<%= filmEdit.Release_date %>" >
+                </div>
+                <div class="input-group">
+                    <label>Script:</label>
+                    <input type="text" name="Script" value="<%= filmEdit.Script %>" >
+                </div>
+                <div>
+                    <button>Save</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>
