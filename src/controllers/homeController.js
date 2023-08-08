@@ -1,5 +1,8 @@
 const connection = require('../config/database');
 const {getAllFilm,getAllAccount} = require('../sevices/CRUDSevices'); 
+const fs = require('fs');
+const xlsx = require('xlsx');
+
 
 const getHomepage = (req,res)=> {
     return res.render('main screen.ejs')
@@ -118,7 +121,43 @@ const postSignUp = async (req,res)=>{
         res.redirect('/');
 }
 
+const importData = async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ message: 'No file uploaded' });
+      }
+  
+      const workbook = xlsx.readFile(req.file.path);
+      const sheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[sheetName];
+      const data = xlsx.utils.sheet_to_json(worksheet);
+  
+      const table = 'Film';
+      const fields = Object.keys(data[0]);
+      const values = data.map(obj => Object.values(obj));
+  
+      const sql = `INSERT INTO ${table} (${fields.join(', ')}) VALUES ?`;
+  
+      connection.query(sql, [values], (err, result) => {
+        if (err) {
+          console.error('Import error: ', err);
+          return res.status(500).json({ message: 'An error occurred during import' });
+        }
+  
+        console.log('Import successful');
+        res.status(200).json({ message: 'Import successful' });
+      });
+  
+    } catch (error) {
+      console.error('Import error: ', error);
+      res.status(500).json({ message: 'An error occurred during import' });
+    }
+  };
+const getImport = (req,res)=>{
+    res.render('index.ejs')
+}
+
 module.exports = {
-    getSignUp,postSignUp,getHomePage,getSignOut,getHomepage,getListFilm,getLogin,getCreatFilm,postCreateFilm,getUpdatePage,postUpdateFilm,getDeleteFilm,postDeleteFilm,getSignIn,postSignIn
+    getImport,importData,getSignUp,postSignUp,getHomePage,getSignOut,getHomepage,getListFilm,getLogin,getCreatFilm,postCreateFilm,getUpdatePage,postUpdateFilm,getDeleteFilm,postDeleteFilm,getSignIn,postSignIn
 }
 

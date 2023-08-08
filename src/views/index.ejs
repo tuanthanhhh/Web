@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/css/index.css">
+        <title>Import Film</title>
+    </head>
+<body>
+  <div class="topnav">
+    <a href="/User/:Id">Home</a>
+    <a href="/Create" >Create Film</a>
+    <a href="/List">List Film</a>
+    <a href="/Sign-out">Sign-out</a>
+    <a href="/Import" class="active">Import Film</a>
+</div>
+  <h2>Data Import</h2>
+  <form id="importForm" enctype="multipart/form-data" action="/import" method="POST">
+    <label for="file">Choose a file:</label>
+    <input type="file" id="file" name="file" accept=".xlsx">
+    <button type="submit">Import</button>
+  </form>
+  <div id="message"></div>
+
+  <script src="/js/script.js"></script>
+</body>
+</html>
