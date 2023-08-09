@@ -19,10 +19,14 @@
   <form id="importForm" enctype="multipart/form-data" action="/import" method="POST">
     <label for="file">Choose a file:</label>
     <input type="file" id="file" name="file" accept=".xlsx">
-    <button type="submit">Import</button>
+    <button type="submit" onclick="showAlert()">Import</button>
   </form>
   <div id="message"></div>
 
-  <script src="/js/script.js"></script>
+  <script>
+    function showAlert() {
+      alert('Complete Import');
+    }
+  </script>
 </body>
 </html>

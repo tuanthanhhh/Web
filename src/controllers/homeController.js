@@ -28,11 +28,21 @@ const postCreateFilm = async (req,res)=>{
 }
 
 
-
 const getListFilm = async (req,res)=> {
-    let result = await getAllFilm();
-    return res.render('List Film.ejs',{listFilm: result})
-}   
+    const itemsPerPage = 30;
+    const page = req.params.page || 1;
+    const offset = (page - 1) * itemsPerPage;
+
+  try {
+    const query = `SELECT * FROM Film LIMIT ${itemsPerPage} OFFSET ${offset}`;
+    const [results] = await connection.query(query);
+
+    res.render('List Film.ejs', { listFilm: results, currentPage: page,itemsPerPage:itemsPerPage });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('ERROR');
+  }
+};
 
 const getLogin  = (req,res)=>{
     return res.render('Login.ejs')
@@ -138,15 +148,8 @@ const importData = async (req, res) => {
   
       const sql = `INSERT INTO ${table} (${fields.join(', ')}) VALUES ?`;
   
-      connection.query(sql, [values], (err, result) => {
-        if (err) {
-          console.error('Import error: ', err);
-          return res.status(500).json({ message: 'An error occurred during import' });
-        }
-  
-        console.log('Import successful');
-        res.status(200).json({ message: 'Import successful' });
-      });
+     await  connection.query(sql, [values])
+     res.redirect('/List');
   
     } catch (error) {
       console.error('Import error: ', error);

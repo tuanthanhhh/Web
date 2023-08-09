@@ -4,9 +4,9 @@ const router = express.Router();
 const multer = require('multer')
 
 router.get('/',getHomepage);
-router.get('/User/:Id',getHomePage);
+router.get('/User/:Id?',getHomePage);
 // router.get('/Creat',getCreatFilm);
-router.get('/List',getListFilm);
+router.get('/List/:page?',getListFilm);
 
 router.get('/Create',getCreatFilm);
 router.get('/update/:Id',getUpdatePage);
@@ -15,6 +15,7 @@ router.get('/Sign-in',getSignIn);
 router.get('/Sign-out',getSignOut)
 router.get('/Sign-up',getSignUp)
 router.get('/import',getImport)
+router.get('/export')
 
 router.post('/Create-film',postCreateFilm);
 router.post('/update-film',postUpdateFilm);
