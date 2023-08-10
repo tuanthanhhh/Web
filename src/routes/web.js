@@ -1,5 +1,5 @@
 const express = require('express');
-const {getImport,importData,getSignUp,postSignUp,getHomepage,getSignOut,getListFilm,getHomePage,postSignIn,getCreatFilm, postCreateFilm,getUpdatePage,postUpdateFilm,getDeleteFilm,postDeleteFilm,getSignIn} = require('../controllers/homeController');
+const {postExport,getExport,getImport,importData,getSignUp,postSignUp,getHomepage,getSignOut,getListFilm,getHomePage,postSignIn,getCreatFilm, postCreateFilm,getUpdatePage,postUpdateFilm,getDeleteFilm,postDeleteFilm,getSignIn} = require('../controllers/homeController');
 const router = express.Router();
 const multer = require('multer')
 
@@ -15,13 +15,14 @@ router.get('/Sign-in',getSignIn);
 router.get('/Sign-out',getSignOut)
 router.get('/Sign-up',getSignUp)
 router.get('/import',getImport)
-router.get('/export')
+router.get('/export',getExport)
 
 router.post('/Create-film',postCreateFilm);
 router.post('/update-film',postUpdateFilm);
 router.post('/delete-film',postDeleteFilm);
 router.post('/Sign-in',postSignIn)
 router.post('/Sign-up',postSignUp)
+router.post('/export',postExport)
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {

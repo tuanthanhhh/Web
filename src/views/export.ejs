@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My web</title>
   <link rel="stylesheet" href="/css/index.css">
-  <body>
+<body>
   <header>
     <div class="topnav">
       <a href="/User/:Id" class="active">Home</a>
@@ -14,7 +15,14 @@
       <a href="/Sign-out">Sign-out</a>
       <a href="/Import">Import Film</a>
       <a href="/export">Export Film</a>
-  </div>
-</header>
+    </div>
+  </header>
+  <section>
+    <form action="/export" method="post">
+      <p>Press button to confirm</p>
+      <button>confirm</button>
+    </form>
+  </section>
+
 </body>
 </html>

@@ -2,6 +2,7 @@ const connection = require('../config/database');
 const {getAllFilm,getAllAccount} = require('../sevices/CRUDSevices'); 
 const fs = require('fs');
 const xlsx = require('xlsx');
+const path = require('path');
 
 
 const getHomepage = (req,res)=> {
@@ -159,8 +160,32 @@ const importData = async (req, res) => {
 const getImport = (req,res)=>{
     res.render('index.ejs')
 }
-
+const postExport = async (req,res)=>{
+    try {
+      const [rows, fields] = await connection.query('SELECT * FROM Film'); // Thực hiện truy vấn bằng Promises
+  
+      const ws = xlsx.utils.json_to_sheet(rows);
+      const wb = xlsx.utils.book_new();
+      xlsx.utils.book_append_sheet(wb, ws, 'Dữ liệu từ MySQL');
+  
+      const filePath = path.join(__dirname, 'exported_data.xlsx');
+      xlsx.writeFile(wb, filePath);
+  
+      res.download(filePath, 'exported_data.xlsx', (err) => {
+        if (err) {
+          console.error('Lỗi khi tải tệp:', err);
+        }
+        fs.unlinkSync(filePath); // Xóa tệp sau khi tải xong
+      });
+    } catch (error) {
+      console.error('Lỗi:', error);
+      res.status(500).send('Internal Server Error');
+    }
+  }
+const getExport = (req,res)=>{
+    res.render('export.ejs')
+}
 module.exports = {
-    getImport,importData,getSignUp,postSignUp,getHomePage,getSignOut,getHomepage,getListFilm,getLogin,getCreatFilm,postCreateFilm,getUpdatePage,postUpdateFilm,getDeleteFilm,postDeleteFilm,getSignIn,postSignIn
+    postExport,getExport,getImport,importData,getSignUp,postSignUp,getHomePage,getSignOut,getHomepage,getListFilm,getLogin,getCreatFilm,postCreateFilm,getUpdatePage,postUpdateFilm,getDeleteFilm,postDeleteFilm,getSignIn,postSignIn
 }
 
