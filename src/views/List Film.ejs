@@ -29,6 +29,7 @@
         <a href="/Create" >Create Film</a>
         <a href="/List" class="active">List Film</a>
         <a href="/Sign-out">Sign-out</a>
+        <a href="/Import">Import Film</a>
     </div>
 </header>
 
@@ -75,6 +76,13 @@
             </tr>
           <% }) %>
       </table>
+      <% if (currentPage > 1) { %>
+        <a href="/List/<%= parseInt(currentPage) - 1 %>"> <button>Previous</button></a>
+      <% } %>
+    
+      <% if (listFilm.length === itemsPerPage) { %>
+        <a href="/List/<%= parseInt(currentPage) + 1 %>"><button>Next</button></a>
+      <% } %>
 </section>
 </body>
 </html>

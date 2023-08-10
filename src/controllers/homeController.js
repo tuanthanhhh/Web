@@ -1,5 +1,8 @@
 const connection = require('../config/database');
 const {getAllFilm,getAllAccount} = require('../sevices/CRUDSevices'); 
+const fs = require('fs');
+const xlsx = require('xlsx');
+
 
 const getHomepage = (req,res)=> {
     return res.render('main screen.ejs')
@@ -25,11 +28,21 @@ const postCreateFilm = async (req,res)=>{
 }
 
 
-
 const getListFilm = async (req,res)=> {
-    let result = await getAllFilm();
-    return res.render('List Film.ejs',{listFilm: result})
-}   
+    const itemsPerPage = 30;
+    const page = req.params.page || 1;
+    const offset = (page - 1) * itemsPerPage;
+
+  try {
+    const query = `SELECT * FROM Film LIMIT ${itemsPerPage} OFFSET ${offset}`;
+    const [results] = await connection.query(query);
+
+    res.render('List Film.ejs', { listFilm: results, currentPage: page,itemsPerPage:itemsPerPage });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('ERROR');
+  }
+};
 
 const getLogin  = (req,res)=>{
     return res.render('Login.ejs')
@@ -118,7 +131,36 @@ const postSignUp = async (req,res)=>{
         res.redirect('/');
 }
 
+const importData = async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ message: 'No file uploaded' });
+      }
+  
+      const workbook = xlsx.readFile(req.file.path);
+      const sheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[sheetName];
+      const data = xlsx.utils.sheet_to_json(worksheet);
+  
+      const table = 'Film';
+      const fields = Object.keys(data[0]);
+      const values = data.map(obj => Object.values(obj));
+  
+      const sql = `INSERT INTO ${table} (${fields.join(', ')}) VALUES ?`;
+  
+     await  connection.query(sql, [values])
+     res.redirect('/List');
+  
+    } catch (error) {
+      console.error('Import error: ', error);
+      res.status(500).json({ message: 'An error occurred during import' });
+    }
+  };
+const getImport = (req,res)=>{
+    res.render('index.ejs')
+}
+
 module.exports = {
-    getSignUp,postSignUp,getHomePage,getSignOut,getHomepage,getListFilm,getLogin,getCreatFilm,postCreateFilm,getUpdatePage,postUpdateFilm,getDeleteFilm,postDeleteFilm,getSignIn,postSignIn
+    getImport,importData,getSignUp,postSignUp,getHomePage,getSignOut,getHomepage,getListFilm,getLogin,getCreatFilm,postCreateFilm,getUpdatePage,postUpdateFilm,getDeleteFilm,postDeleteFilm,getSignIn,postSignIn
 }
 
